@@ -16,6 +16,8 @@
     "@clerk/nextjs": "^6.35.4",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^7.0.0",
+    "@prisma/adapter-postgresql": "^7.0.0",
+    "pg": "^8.11.3",
     "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-slot": "^1.2.4",
     "@react-three/drei": "^9.114.3",
