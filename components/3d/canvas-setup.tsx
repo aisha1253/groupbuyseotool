@@ -1,5 +1,7 @@
 "use client"
 
+/// <reference path="../../types/react-three-fiber.d.ts" />
+
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { ReactNode } from "react"
