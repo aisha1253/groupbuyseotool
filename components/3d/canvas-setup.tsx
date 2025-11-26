@@ -1,7 +1,5 @@
 "use client"
 
-/// <reference path="../../types/react-three-fiber.d.ts" />
-
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { ReactNode } from "react"
@@ -23,7 +21,9 @@ export function CanvasSetup({
       className="w-full h-full"
     >
       <PerspectiveCamera makeDefault position={cameraPosition} />
+      {/* @ts-expect-error - React Three Fiber types */}
       <ambientLight intensity={0.5} />
+      {/* @ts-expect-error - React Three Fiber types */}
       <pointLight position={[10, 10, 10]} />
       {enableControls && <OrbitControls enableZoom={false} />}
       {children}
