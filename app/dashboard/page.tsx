@@ -48,7 +48,7 @@ export default function DashboardPage() {
 
   if (!isLoaded || !user || loading) {
     return (
-      <NextLayout header={2}>
+      <NextLayout header={2} footer={4} single>
         <div style={{ 
           minHeight: '100vh', 
           display: 'flex', 
@@ -75,7 +75,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <NextLayout header={2}>
+    <NextLayout header={2} footer={4} single>
       <section style={{
         minHeight: '100vh',
         padding: '80px 20px',
