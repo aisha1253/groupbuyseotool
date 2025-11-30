@@ -132,7 +132,7 @@ export default function SellerDashboardPage() {
 
   if (!isLoaded || !user) {
     return (
-      <NextLayout header={2}>
+      <NextLayout header={2} footer={4} single>
         <div style={{ 
           minHeight: '100vh', 
           display: 'flex', 
@@ -146,7 +146,7 @@ export default function SellerDashboardPage() {
   }
 
   return (
-    <NextLayout header={2}>
+    <NextLayout header={2} footer={4} single>
       <section className="seller-dashboard-section" style={{
         minHeight: '100vh',
         padding: '80px 20px',
