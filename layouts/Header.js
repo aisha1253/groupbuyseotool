@@ -2,7 +2,11 @@
 import { nextUtility } from "@/utility";
 import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import AuthButtons from "@/components/AuthButtons";
 const Header = ({ header, single }) => {
+  console.log("Header rendering with header type:", header);
   useEffect(() => {
     nextUtility.stickyNav();
   }, []);
@@ -25,27 +29,106 @@ const Header = ({ header, single }) => {
 export default Header;
 
 const Menu = ({ single, menu }) => {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+
+  // Home page par jo menu items hain - wahi sab jagah show honge
+  const { user, isSignedIn } = useUser();
+  const [isSeller, setIsSeller] = useState(false);
+
+  // Check seller status from Clerk metadata and database
+  useEffect(() => {
+    const checkSellerStatus = async () => {
+      if (isSignedIn && user) {
+        // First check Clerk metadata
+        const clerkRole = user?.publicMetadata?.role;
+        if (clerkRole === 'SELLER') {
+          setIsSeller(true);
+          return;
+        }
+
+        // If not in metadata, check database with retry
+        let retries = 3;
+        let delay = 1000; // Start with 1 second delay
+        
+        while (retries > 0) {
+        try {
+          const response = await fetch(`/api/users/${user.id}`);
+          if (response.ok) {
+            const userData = await response.json();
+            if (userData.role === 'SELLER') {
+              setIsSeller(true);
+                return;
+              } else {
+                setIsSeller(false);
+                return;
+              }
+            } else if (response.status === 404) {
+              // User not found in database yet, wait and retry
+              if (retries > 1) {
+                await new Promise(resolve => setTimeout(resolve, delay));
+                delay *= 2; // Exponential backoff
+                retries--;
+                continue;
+              }
+            }
+          } catch (error) {
+            console.log('Error checking seller status:', error.message);
+            if (retries > 1) {
+              await new Promise(resolve => setTimeout(resolve, delay));
+              delay *= 2;
+              retries--;
+              continue;
+            }
+          }
+          retries = 0;
+        }
+      } else {
+        setIsSeller(false);
+      }
+    };
+
+    checkSellerStatus();
+  }, [isSignedIn, user]);
+
+  // Home page par jo menu items hain - wahi sab jagah show honge
   const singleMenu = menu
     ? menu
     : [
-        { id: 1, href: "about", title: "About" },
-        { id: 2, href: "services", title: "Services" },
-        { id: 3, href: "team", title: "Team" },
-        { id: 4, href: "blog", title: "Blog" },
-      ];
+      // Default menu items removed as requested
+    ];
+
+  // Add Seller Dashboard if user is a seller
+  if (isSeller && !singleMenu.find(item => item.title === "Seller Dashboard")) {
+    singleMenu.push({ id: 99, href: "/seller-dashboard", title: "Seller Dashboard" });
+    console.log('Seller Dashboard added to menu', { isSeller, userId: user?.id });
+  }
+
+  // Function to get menu link - homepage pe anchor, baaki pages pe homepage with anchor
+  const getMenuLink = (href) => {
+    if (isHomePage) {
+      return `#${href}`;
+    }
+    return `/#${href}`;
+  };
+
   return (
     <Fragment>
       {single ? (
         <nav id="mobile-menu" className="d-none d-xl-block">
           <ul>
-            <li className="active">
+            <li className={isHomePage ? "active" : ""}>
               <Link href="/">
                 Home
               </Link>
             </li>
             {singleMenu.map((menu) => (
               <li key={menu.id}>
-                <a href={`#${menu.href}`}>{menu.title}</a>
+                {menu.href.startsWith('/') ? (
+                  <Link href={menu.href}>{menu.title}</Link>
+                ) : (
+                  <a href={getMenuLink(menu.href)}>{menu.title}</a>
+                )}
               </li>
             ))}
           </ul>
@@ -53,87 +136,20 @@ const Menu = ({ single, menu }) => {
       ) : (
         <nav id="mobile-menu" className="d-none d-xl-block">
           <ul>
-            <li className="active">
+            <li className={isHomePage ? "active" : ""}>
               <Link href="/">
                 Home
               </Link>
             </li>
-            <li>
-              <Link href="about">About</Link>
-            </li>
-            <li>
-              <Link href="service-details">
-                Services
-                <i className="fas fa-angle-down" />
-              </Link>
-              <ul className="submenu">
-                <li>
-                  <Link href="service">Services</Link>
-                </li>
-                <li>
-                  <Link href="service-details">Service Details</Link>
-                </li>
-              </ul>
-            </li>
-            <li className="has-dropdown">
-              <Link href="news">
-                Pages
-                <i className="fas fa-angle-down" />
-              </Link>
-              <ul className="submenu">
-                <li className="has-dropdown">
-                  <Link href="project-details">
-                    Projects
-                    <i className="fas fa-angle-down" />
-                  </Link>
-                  <ul className="submenu">
-                    <li>
-                      <Link href="project">Projects</Link>
-                    </li>
-                    <li>
-                      <Link href="project-details">Project Details</Link>
-                    </li>
-                  </ul>
-                </li>
-                <li className="has-dropdown">
-                  <Link href="team-details">
-                    Team
-                    <i className="fas fa-angle-down" />
-                  </Link>
-                  <ul className="submenu">
-                    <li>
-                      <Link href="team">Team</Link>
-                    </li>
-                    <li>
-                      <Link href="team-details">Team Details</Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <Link href="pricing">Pricing Table</Link>
-                </li>
-                <li>
-                  <Link href="404">404 Page</Link>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <Link href="news">
-                Blog
-                <i className="fas fa-angle-down" />
-              </Link>
-              <ul className="submenu">
-                <li>
-                  <Link href="news">Blog </Link>
-                </li>
-                <li>
-                  <Link href="news-details">Blog Details</Link>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <Link href="contact">Contact</Link>
-            </li>
+            {singleMenu.map((menu) => (
+              <li key={menu.id}>
+                {menu.href.startsWith('/') ? (
+                  <Link href={menu.href}>{menu.title}</Link>
+                ) : (
+                  <a href={getMenuLink(menu.href)}>{menu.title}</a>
+                )}
+              </li>
+            ))}
           </ul>
         </nav>
       )}
@@ -142,24 +158,99 @@ const Menu = ({ single, menu }) => {
 };
 
 const MobileMenu = ({ single, menu }) => {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+
   const [activeMenu, setActiveMenu] = useState("");
   const [multiMenu, setMultiMenu] = useState("");
   const activeMenuSet = (value) =>
-      setActiveMenu(activeMenu === value ? "" : value),
+    setActiveMenu(activeMenu === value ? "" : value),
     activeLi = (value) =>
       value === activeMenu ? { display: "block" } : { display: "none" };
   const multiMenuSet = (value) =>
-      setMultiMenu(multiMenu === value ? "" : value),
+    setMultiMenu(multiMenu === value ? "" : value),
     multiMenuActiveLi = (value) =>
       value === multiMenu ? { display: "block" } : { display: "none" };
+
+  // Home page par jo menu items hain - wahi sab jagah show honge
+  const { user, isSignedIn } = useUser();
+  const [isSeller, setIsSeller] = useState(false);
+
+  // Check seller status from Clerk metadata and database
+  useEffect(() => {
+    const checkSellerStatus = async () => {
+      if (isSignedIn && user) {
+        // First check Clerk metadata
+        const clerkRole = user?.publicMetadata?.role;
+        if (clerkRole === 'SELLER') {
+          setIsSeller(true);
+          return;
+        }
+
+        // If not in metadata, check database with retry
+        let retries = 3;
+        let delay = 1000; // Start with 1 second delay
+        
+        while (retries > 0) {
+        try {
+          const response = await fetch(`/api/users/${user.id}`);
+          if (response.ok) {
+            const userData = await response.json();
+            if (userData.role === 'SELLER') {
+              setIsSeller(true);
+                return;
+              } else {
+                setIsSeller(false);
+                return;
+              }
+            } else if (response.status === 404) {
+              // User not found in database yet, wait and retry
+              if (retries > 1) {
+                await new Promise(resolve => setTimeout(resolve, delay));
+                delay *= 2; // Exponential backoff
+                retries--;
+                continue;
+              }
+            }
+          } catch (error) {
+            console.log('Error checking seller status:', error.message);
+            if (retries > 1) {
+              await new Promise(resolve => setTimeout(resolve, delay));
+              delay *= 2;
+              retries--;
+              continue;
+            }
+          }
+          retries = 0;
+        }
+      } else {
+        setIsSeller(false);
+      }
+    };
+
+    checkSellerStatus();
+  }, [isSignedIn, user]);
+
+  // Home page par jo menu items hain - wahi sab jagah show honge
   const singleMenu = menu
     ? menu
     : [
-        { id: 1, href: "about", title: "About" },
-        { id: 2, href: "services", title: "Services" },
-        { id: 3, href: "team", title: "Team" },
-        { id: 4, href: "blog", title: "Blog" },
-      ];
+      // Default menu items removed
+    ];
+
+  if (isSeller && !singleMenu.find(item => item.title === "Seller Dashboard")) {
+    singleMenu.push({ id: 99, href: "/seller-dashboard", title: "Seller Dashboard" });
+    console.log('Seller Dashboard added to mobile menu');
+  }
+
+  // Function to get menu link
+  const getMenuLink = (href) => {
+    if (isHomePage) {
+      return `#${href}`;
+    }
+    return `/#${href}`;
+  };
+
   return (
     <div className="mobile-menu fix mb-3 mean-container d-block d-xl-none">
       <div className="mean-bar">
@@ -177,132 +268,15 @@ const MobileMenu = ({ single, menu }) => {
                 Home
               </Link>
             </li>
-            {single ? (
-              <Fragment>
-                {singleMenu.map((menu) => (
-                  <li key={menu.id}>
-                    <a href={`#${menu.href}`}>{menu.title}</a>
-                  </li>
-                ))}
-              </Fragment>
-            ) : (
-              <Fragment>
-                <li>
-                  <Link href="about">About</Link>
-                </li>
-                <li>
-                  <a href="#" onClick={() => activeMenuSet("Services")}>
-                    Services
-                    <i className="fas fa-angle-down" />
-                  </a>
-                  <ul className="submenu" style={activeLi("Services")}>
-                    <li>
-                      <Link href="service">Services</Link>
-                    </li>
-                    <li>
-                      <Link href="service-details">Service Details</Link>
-                    </li>
-                  </ul>
-                  <a
-                    className="mean-expand"
-                    href="#"
-                    onClick={() => activeMenuSet("Services")}
-                  >
-                    <i className="far fa-plus" />
-                  </a>
-                </li>
-                <li className="has-dropdown">
-                  <a href="#" onClick={() => activeMenuSet("Pages")}>
-                    Pages
-                    <i className="fas fa-angle-down" />
-                  </a>
-                  <ul className="submenu" style={activeLi("Pages")}>
-                    <li className="has-dropdown">
-                      <a href="#" onClick={() => multiMenuSet("Projects")}>
-                        Projects
-                        <i className="fas fa-angle-down" />
-                      </a>
-                      <ul
-                        className="submenu"
-                        style={multiMenuActiveLi("Projects")}
-                      >
-                        <li>
-                          <Link href="project">Projects</Link>
-                        </li>
-                        <li>
-                          <Link href="project-details">Project Details</Link>
-                        </li>
-                      </ul>
-                      <a
-                        className="mean-expand"
-                        href="#"
-                        onClick={() => multiMenuSet("Projects")}
-                      >
-                        <i className="far fa-plus" />
-                      </a>
-                    </li>
-                    <li className="has-dropdown">
-                      <a href="#" onClick={() => multiMenuSet("Team")}>
-                        Team
-                        <i className="fas fa-angle-down" />
-                      </a>
-                      <ul className="submenu" style={multiMenuActiveLi("Team")}>
-                        <li>
-                          <Link href="team">Team</Link>
-                        </li>
-                        <li>
-                          <Link href="team-details">Team Details</Link>
-                        </li>
-                      </ul>
-                      <a
-                        className="mean-expand"
-                        href="#"
-                        onClick={() => multiMenuSet("Team")}
-                      >
-                        <i className="far fa-plus" />
-                      </a>
-                    </li>
-                    <li>
-                      <Link href="pricing">Pricing Table</Link>
-                    </li>
-                    <li>
-                      <Link href="404">404 Page</Link>
-                    </li>
-                  </ul>
-                  <a
-                    className="mean-expand"
-                    href="#"
-                    onClick={() => activeMenuSet("Pages")}
-                  >
-                    <i className="far fa-plus" />
-                  </a>
-                </li>
-                <li>
-                  <a href="#" onClick={() => activeMenuSet("Blog")}>
-                    Blog
-                    <i className="fas fa-angle-down" />
-                  </a>
-                  <ul className="submenu" style={activeLi("Blog")}>
-                    <li>
-                      <Link href="news">Blog </Link>
-                    </li>
-                    <li>
-                      <Link href="news-details">Blog Details</Link>
-                    </li>
-                  </ul>
-                  <a
-                    className="mean-expand"
-                    href="#"
-                    onClick={() => activeMenuSet("Blog")}
-                  >
-                    <i className="far fa-plus" />
-                  </a>
-                </li>
-                <li className="mean-last">
-                  <Link href="contact">Contact</Link>
-                </li>
-              </Fragment>
-            )}
+            {singleMenu.map((menu) => (
+              <li key={menu.id}>
+                {menu.href.startsWith('/') ? (
+                  <Link href={menu.href}>{menu.title}</Link>
+                ) : (
+                  <a href={getMenuLink(menu.href)}>{menu.title}</a>
+                )}
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
@@ -474,13 +448,10 @@ const Header1 = ({ single, menu }) => {
   );
 };
 
+
 const Header2 = ({ single }) => {
-  const singleMenu = [
-    { id: 1, href: "about", title: "About" },
-    { id: 2, href: "services", title: "Services" },
-    { id: 3, href: "projects", title: "Projects" },
-    { id: 4, href: "testimonial", title: "Testimonial" },
-  ];
+  // Home page par jo menu items hain, wahi sab jagah show honge
+  const singleMenu = [];
 
   const [sidebarToggle, setSidebarToggle] = useState(false);
   return (
@@ -501,12 +472,8 @@ const Header2 = ({ single }) => {
                   </div>
                 </div>
               </div>
-              <div className="header-right d-flex justify-content-end align-items-center">
-                <div className="header-button">
-                  <Link href="contact" className="theme-btn bg-2">
-                    Get A Quote
-                  </Link>
-                </div>
+              <div className="header-right d-flex justify-content-end align-items-center gap-3">
+                <AuthButtons />
                 <div className="header__hamburger d-xl-none my-auto">
                   <div
                     className="sidebar__toggle"
@@ -532,13 +499,7 @@ const Header2 = ({ single }) => {
 
 const Header3 = ({ single }) => {
   const [sidebarToggle, setSidebarToggle] = useState(false);
-  const singleMenu = [
-    { id: 2, href: "services", title: "Services" },
-    { id: 1, href: "about", title: "About" },
-    { id: 3, href: "team", title: "Team" },
-    { id: 4, href: "testimonial", title: "Testimonial" },
-    { id: 4, href: "blog", title: "Blog" },
-  ];
+  const singleMenu = [];
   return (
     <Fragment>
       <header id="header-sticky" className="header-2">
@@ -599,12 +560,7 @@ const Header3 = ({ single }) => {
 
 const Header5 = ({ single }) => {
   const [sidebarToggle, setSidebarToggle] = useState(false);
-  const singleMenu = [
-    { id: 1, href: "about", title: "About" },
-    { id: 2, href: "services", title: "Services" },
-    { id: 3, href: "projects", title: "Projects" },
-    { id: 4, href: "contact", title: "Contact" },
-  ];
+  const singleMenu = [];
   return (
     <Fragment>
       <header id="header-sticky" className="header-6">
@@ -652,11 +608,7 @@ const Header5 = ({ single }) => {
 
 const Header6 = ({ single }) => {
   const [sidebarToggle, setSidebarToggle] = useState(false);
-  const singleMenu = [
-    { id: 2, href: "services", title: "Services" },
-    { id: 3, href: "feature", title: "Feature" },
-    { id: 4, href: "pricing", title: "Pricing" },
-  ];
+  const singleMenu = [];
   return (
     <Fragment>
       <header id="header-sticky" className="header-3">

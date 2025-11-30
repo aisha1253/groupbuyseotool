@@ -1,0 +1,117 @@
+================================================================================
+WEBHOOK_SECRET QUICK SETUP GUIDE
+================================================================================
+
+WEBHOOK_SECRET Clerk Dashboard se milti hai. Ye steps follow karo:
+
+================================================================================
+STEP 1: Clerk Dashboard Me Jao
+================================================================================
+
+1. Browser me open karo: https://dashboard.clerk.com
+2. Login karo
+3. Apna application select karo
+
+================================================================================
+STEP 2: Webhooks Section
+================================================================================
+
+1. Left sidebar me "Webhooks" par click karo
+2. "Add Endpoint" button par click karo
+
+================================================================================
+STEP 3: Endpoint Create Karo
+================================================================================
+
+ENDPOINT URL:
+  Development: http://localhost:3000/api/webhooks/clerk
+  (Ya ngrok URL: https://abc123.ngrok.io/api/webhooks/clerk)
+
+EVENTS SELECT KARO (Checkboxes):
+  ☑ user.created
+  ☑ user.updated  
+  ☑ user.deleted
+
+3. "Add Endpoint" / "Create" button par click karo
+
+================================================================================
+STEP 4: Secret Key Copy Karo
+================================================================================
+
+1. Endpoint create hone ke baad, endpoint list me dikhegi
+2. Endpoint ke samne "Reveal" button dikhega
+3. "Reveal" par click karo
+4. Secret key show hogi: whsec_xxxxx...
+5. Secret key copy karo (Ctrl+C)
+
+================================================================================
+STEP 5: .env File Me Add Karo
+================================================================================
+
+.env file me add karo:
+
+WEBHOOK_SECRET="whsec_your_actual_secret_key_here"
+
+Example:
+WEBHOOK_SECRET="whsec_abc123def456ghi789jkl012mno345pqr678"
+
+IMPORTANT:
+- Quotes (") ke andar rakho
+- Complete key paste karo
+- No extra spaces
+
+================================================================================
+STEP 6: Server Restart
+================================================================================
+
+After .env update:
+
+npm run dev
+
+Restart karo server
+
+================================================================================
+LOCAL DEVELOPMENT ME ISSUE?
+================================================================================
+
+Problem: localhost:3000 directly work nahi karega
+
+Solution: ngrok use karo
+
+1. Install ngrok:
+   npm install -g ngrok
+
+2. Run ngrok:
+   ngrok http 3000
+
+3. Ngrok se milega URL:
+   Example: https://abc123.ngrok.io
+
+4. Clerk me endpoint URL:
+   https://abc123.ngrok.io/api/webhooks/clerk
+
+Ya development me skip karo, production me setup karo.
+
+================================================================================
+QUICK CHECKLIST
+================================================================================
+
+☐ Clerk Dashboard me logged in
+☐ Webhooks section me gaye
+☐ Endpoint create ki (URL + Events)
+☐ "Reveal" se secret copy ki
+☐ .env me WEBHOOK_SECRET add kiya
+☐ Server restart kiya
+
+================================================================================
+HELP
+================================================================================
+
+Agar "Reveal" button nahi dikha:
+- Page refresh karo
+- Endpoint properly create hui hai check karo
+
+Secret key format: whsec_xxxxx... (whsec_ se start hoti hai)
+
+================================================================================
+

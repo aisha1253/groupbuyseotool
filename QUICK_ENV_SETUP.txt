@@ -1,0 +1,90 @@
+================================================================================
+QUICK ENV SETUP GUIDE - Step by Step
+================================================================================
+
+STEP 1: .env FILE CREATE KARO
+--------------------------------------------------------------------------------
+Project root directory me ek file banao naam se ".env"
+Ya .env.example file ko copy karke .env bana lo
+
+STEP 2: YE SAB ADD KARO .env FILE ME
+--------------------------------------------------------------------------------
+
+# DATABASE
+DATABASE_URL="postgresql://postgres:your_password@localhost:5432/groupbuytools"
+
+# CLERK KEYS (Clerk Dashboard se milti hain)
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_your_key_here"
+CLERK_SECRET_KEY="sk_test_your_key_here"
+WEBHOOK_SECRET="whsec_your_secret_here"
+
+# APP URL
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NODE_ENV="development"
+
+================================================================================
+CLERK KEYS KAISE LEIN:
+================================================================================
+
+1. https://dashboard.clerk.com par jao
+2. Login karo ya signup karo
+3. Application create karo (ya existing select karo)
+4. Left sidebar me "API Keys" par click karo
+5. Publishable Key aur Secret Key copy karo
+6. Webhook ke liye:
+   - Left sidebar me "Webhooks" par click karo
+   - "Add Endpoint" karo
+   - URL: http://localhost:3000/api/webhooks/clerk (development)
+   - Events select: user.created, user.updated, user.deleted
+   - Secret key copy karo
+
+================================================================================
+DATABASE URL KAISE BANAYEIN:
+================================================================================
+
+Format: postgresql://username:password@host:port/database_name
+
+Example (Local):
+DATABASE_URL="postgresql://postgres:password123@localhost:5432/groupbuytools"
+
+Example (Supabase - Free):
+DATABASE_URL="postgresql://postgres:xxxxx@db.xxxxx.supabase.co:5432/postgres"
+
+Example (Neon - Free):
+DATABASE_URL="postgresql://username:password@ep-xxxxx.neon.tech/neondb"
+
+================================================================================
+COMPLETE EXAMPLE:
+================================================================================
+
+DATABASE_URL="postgresql://postgres:password123@localhost:5432/groupbuytools"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_abc123xyz..."
+CLERK_SECRET_KEY="sk_test_xyz789abc..."
+WEBHOOK_SECRET="whsec_123abc456..."
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NODE_ENV="development"
+
+================================================================================
+IMPORTANT NOTES:
+================================================================================
+
+1. Har key ke aaspaas quotes (") zaroor rakho
+2. Koi extra spaces nahi hone chahiye
+3. Actual values apni keys se replace karo
+4. .env file ko git me commit mat karo (security)
+
+================================================================================
+VERIFICATION:
+================================================================================
+
+After .env file setup, run:
+
+npm run dev
+
+Agar koi error aaye to:
+1. .env file root directory me hai check karo
+2. Keys properly copy ki hain verify karo
+3. Database connection test karo
+
+================================================================================
+

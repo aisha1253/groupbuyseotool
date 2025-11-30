@@ -5,7 +5,8 @@ const Services = () => {
     <section
       className="service-section-4 fix bg-cover section-padding"
       style={{
-        backgroundImage: 'url("assets/img/service/service-bg-min.jpg")',
+        backgroundColor: '#ffffff',
+        position: 'relative',
       }}
       id="services"
     >
@@ -15,7 +16,7 @@ const Services = () => {
             <img src="assets/img/bale.png" alt="img" style={{ width: '14px', height: '14px' }} />
             Popular Tools
           </span>
-          <h2 className="text-white wow fadeInUp" data-wow-delay=".3s">
+          <h2 className="wow fadeInUp" data-wow-delay=".3s" style={{ color: '#101828' }}>
             Buy &amp; Sell Digital Tools at Cheap Prices <br />
             Best Marketplace for Buyers &amp; Sellers <br /> to Trade Tools
           </h2>
@@ -78,6 +79,7 @@ const Services = () => {
           <div
             className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp"
             data-wow-delay=".3s"
+            style={{ marginTop: '30px' }}
           >
             <div className="service-box-items">
               <div className="icon">
@@ -96,6 +98,7 @@ const Services = () => {
           <div
             className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp"
             data-wow-delay=".5s"
+            style={{ marginTop: '30px' }}
           >
             <div className="service-box-items">
               <div className="icon">
@@ -114,6 +117,7 @@ const Services = () => {
           <div
             className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp"
             data-wow-delay=".7s"
+            style={{ marginTop: '30px' }}
           >
             <div className="service-box-items">
               <div className="icon">
@@ -131,6 +135,86 @@ const Services = () => {
           </div>
         </div>
       </div>
+      <style dangerouslySetInnerHTML={{__html: `
+        .service-section-4 {
+          position: relative;
+        }
+        .service-section-4::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          width: 100%;
+          height: 100%;
+          --s: 200px;
+          --c1: rgba(29, 29, 29, 0.15);
+          --c2: rgba(78, 79, 81, 0.12);
+          --c3: rgba(60, 60, 60, 0.1);
+          background: repeating-conic-gradient(
+                from 30deg,
+                #0000 0 120deg,
+                var(--c3) 0 180deg
+              )
+              calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
+            repeating-conic-gradient(
+              from 30deg,
+              var(--c1) 0 60deg,
+              var(--c2) 0 120deg,
+              var(--c3) 0 180deg
+            );
+          background-size: var(--s) calc(var(--s) * 0.577);
+          z-index: 0;
+          opacity: 0.4;
+        }
+        .service-section-4 > * {
+          position: relative;
+          z-index: 1;
+        }
+        .service-section-4 .service-box-items {
+          background-color: #ffffff !important;
+          border: 2px solid transparent;
+          transition: all 0.3s ease;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          min-height: 280px;
+        }
+        .service-section-4 .service-box-items .content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+        }
+        .service-section-4 .service-box-items .content p {
+          flex: 1;
+        }
+        .service-section-4 .service-box-items:hover {
+          background-color: #ffffff !important;
+          border-color: #F58967 !important;
+        }
+        .service-section-4 .row > div {
+          display: flex;
+        }
+        .service-section-4 .row > div > div {
+          width: 100%;
+        }
+        .service-section-4 h2 {
+          color: #101828 !important;
+        }
+        .service-section-4 .service-box-items h3 a {
+          color: #101828 !important;
+        }
+        .service-section-4 .service-box-items p {
+          color: #696969 !important;
+        }
+        .service-section-4 .service-box-items .icon {
+          color: #F58967 !important;
+        }
+        .service-section-4 .service-box-items:hover .icon {
+          color: #F58967 !important;
+        }
+      `}} />
     </section>
   );
 };

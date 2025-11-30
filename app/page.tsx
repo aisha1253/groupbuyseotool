@@ -6,17 +6,17 @@ import {
   TestimonialSlider4,
   TestimonialSlider5,
 } from "@/components/TestimonialSlider";
-import WorkingProcess from "@/components/WorkingProcess";
 import NextLayout from "@/layouts/NextLayout";
 import Link from "next/link";
+import Counter from "@/components/Counter";
 
 const page = () => {
   return (
     <NextLayout header={2} footer={4} single>
       {/* Hero Section Start */}
-      <section className="hero-section hero-4" style={{ backgroundImage: 'url("assets/img/hero-image-bg.png")', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', position: 'relative' }}>
-        <div className="container" style={{ maxWidth: '1200px', paddingLeft: '3rem', paddingRight: '3rem' }}>
-          <div className="row g-4 align-items-center justify-content-between align-items-center">
+      <section className="hero-section hero-4" style={{ backgroundColor: '#ffffff', position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '80px', paddingBottom: '80px' }}>
+        <div className="container" style={{ maxWidth: '1200px', paddingLeft: '3rem', paddingRight: '3rem', width: '100%' }}>
+          <div className="row g-4 align-items-center justify-content-between" style={{ minHeight: 'calc(100vh - 160px)', alignItems: 'center' }}>
             <div className="col-lg-6">
               <div className="hero-content">
                 <span className="sub-content wow fadeInUp" data-wow-delay=".2s" style={{ fontSize: '0.75rem', padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: '6px', width: 'fit-content' }}>
@@ -60,20 +60,58 @@ const page = () => {
               </div>
             </div>
             <div className="col-lg-5 wow fadeInUp" data-wow-delay=".4s">
-              <div className="hero-image" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
-                <img
-                  src="assets/img/hero/digital-marketing-hero-img-min.png"
-                  alt="img"
-                  style={{ maxWidth: '100%', height: 'auto' }}
-                />
-                <div className="circle-musk-shape float-bob-x">
-                  <img src="assets/img/hero/circle-musk.png" alt="shape-img" />
+              <div className="hero-image" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', position: 'relative', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ position: 'relative', width: '100%', height: '700px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {/* 2.webp - Center/Middle image, larger size */}
+                  <img
+                    src="assets/img/hero/2.webp"
+                    alt="img"
+                    style={{ 
+                      width: '120%', 
+                      maxWidth: '600px',
+                      height: 'auto', 
+                      objectFit: 'contain',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      zIndex: 1,
+                      mixBlendMode: 'normal',
+                      filter: 'drop-shadow(0px 20px 60px rgba(0, 0, 0, 0.2))'
+                    }}
+                  />
+                  {/* 3.webp - Top/Foreground image */}
+                  <img
+                    src="assets/img/hero/3.webp"
+                    alt="img"
+                    style={{ 
+                      width: '130%', 
+                      height: 'auto', 
+                      maxWidth: '800px',
+                      objectFit: 'contain',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      zIndex: 2,
+                      mixBlendMode: 'normal'
+                    }}
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
         <style dangerouslySetInnerHTML={{__html: `
+          .hero-section.hero-4 {
+            background-color: #ffffff !important;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            padding-bottom: 80px;
+            position: relative;
+          }
           .hero-section.hero-4::before {
             content: '';
             position: absolute;
@@ -81,15 +119,134 @@ const page = () => {
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to bottom, rgba(92, 48, 253, 0.1), rgba(92, 48, 253, 0.3));
+            width: 100%;
+            height: 100%;
+            --s: 125px;
+            --c1: rgba(245, 137, 103, 0.08);
+            --c2: rgba(245, 137, 103, 0.04);
+            --_g: var(--c1) 90deg, var(--c2) 0 135deg, #0000 0;
+            background: conic-gradient(
+                from -45deg at calc(100% / 3) calc(100% / 3),
+                var(--c1) 90deg,
+                #0000 0
+              ),
+              conic-gradient(from -135deg at calc(100% / 3) calc(2 * 100% / 3), var(--_g)),
+              conic-gradient(
+                from 135deg at calc(2 * 100% / 3) calc(2 * 100% / 3),
+                var(--_g)
+              ),
+              conic-gradient(
+                from 45deg at calc(2 * 100% / 3) calc(100% / 3),
+                var(--_g),
+                var(--c1) 0 225deg,
+                var(--c2) 0
+              );
+            background-size: var(--s) var(--s);
             z-index: 0;
+            opacity: 0.3;
           }
           .hero-section.hero-4 > * {
             position: relative;
             z-index: 1;
           }
+          .hero-section.hero-4 .container {
+            position: relative;
+            z-index: 1;
+          }
+          .hero-section.hero-4 .hero-image img {
+            background: transparent !important;
+            background-color: transparent !important;
+          }
+          .hero-section.hero-4 .row {
+            min-height: calc(100vh - 160px);
+            align-items: center;
+          }
+          @media (max-width: 991px) {
+            .hero-section.hero-4 {
+              min-height: auto;
+              padding-top: 60px;
+              padding-bottom: 60px;
+            }
+            .hero-section.hero-4 .row {
+              min-height: auto;
+            }
+            .hero-section.hero-4 .hero-image {
+              height: 500px !important;
+              margin-top: 40px;
+            }
+            .hero-section.hero-4 .hero-image img[src*="3.webp"] {
+              width: 120% !important;
+              max-width: 700px !important;
+            }
+            .hero-section.hero-4 .hero-image img[src*="2.webp"] {
+              width: 100% !important;
+              max-width: 500px !important;
+            }
+          }
+          @media (max-width: 767px) {
+            .hero-section.hero-4 {
+              padding-top: 40px;
+              padding-bottom: 40px;
+            }
+            .hero-section.hero-4 .hero-image {
+              height: 400px !important;
+            }
+            .hero-section.hero-4 .hero-image img[src*="3.webp"] {
+              width: 110% !important;
+              max-width: 600px !important;
+            }
+            .hero-section.hero-4 .hero-image img[src*="2.webp"] {
+              width: 100% !important;
+              max-width: 400px !important;
+            }
+          }
         `}} />
       </section>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        /* Reduce text sizes in all sections after hero */
+        section:not(.hero-section) h1,
+        section:not(.hero-section) h2,
+        section:not(.hero-section) h3,
+        section:not(.hero-section) h4,
+        section:not(.hero-section) h5,
+        section:not(.hero-section) h6 {
+          font-size: 0.85em !important;
+        }
+        section:not(.hero-section) p {
+          font-size: 0.9em !important;
+        }
+        section:not(.hero-section) .section-title h2 {
+          font-size: 1.8rem !important;
+        }
+        section:not(.hero-section) .section-title h3 {
+          font-size: 1.5rem !important;
+        }
+        section:not(.hero-section) .section-title h4 {
+          font-size: 1.3rem !important;
+        }
+        section:not(.hero-section) .section-title h5 {
+          font-size: 1.1rem !important;
+        }
+        section:not(.hero-section) .section-title h6 {
+          font-size: 1rem !important;
+        }
+        section:not(.hero-section) .content p,
+        section:not(.hero-section) .about-content p,
+        section:not(.hero-section) .service-content p {
+          font-size: 0.9em !important;
+        }
+        @media (max-width: 991px) {
+          section:not(.hero-section) .section-title h2 {
+            font-size: 1.5rem !important;
+          }
+        }
+        @media (max-width: 767px) {
+          section:not(.hero-section) .section-title h2 {
+            font-size: 1.3rem !important;
+          }
+        }
+      `}} />
 
       {/* Brand Section Start */}
       <section className="brand-section-2 fix">
@@ -172,7 +329,7 @@ const page = () => {
                 transition: all 0.3s ease;
               }
               .brand-text-item:hover {
-                color: #5C30FD !important;
+                color: #F58967 !important;
                 transform: scale(1.1);
               }
             `}} />
@@ -240,16 +397,62 @@ const page = () => {
         </div>
       </section>
 
+      {/* Stats Section Start */}
+      <section className="stats-section" style={{ 
+        backgroundColor: '#0F1F3E',
+        padding: '40px 0'
+      }}>
+        <div className="container" style={{ maxWidth: '1200px', paddingLeft: '3rem', paddingRight: '3rem' }}>
+          <div className="row justify-content-center">
+            <div className="col-lg-3 col-md-6 col-sm-6 mb-4 mb-lg-0">
+              <div className="stat-item text-center wow fadeInUp" data-wow-delay=".3s">
+                <h3 style={{ fontSize: '200px', fontWeight: '700', color: '#ffffff', marginBottom: '20px', lineHeight: '1' }}>
+                  <span className="count">
+                    <Counter end={50} />
+                  </span>+
+                </h3>
+                <p style={{ fontSize: '42px', color: '#ffffff', margin: 0, opacity: 0.9, fontWeight: '500' }}>Premium SEO Tools</p>
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-6 col-sm-6 mb-4 mb-lg-0">
+              <div className="stat-item text-center wow fadeInUp" data-wow-delay=".5s">
+                <h3 style={{ fontSize: '200px', fontWeight: '700', color: '#ffffff', marginBottom: '20px', lineHeight: '1' }}>
+                  <span className="count">
+                    <Counter end={10} />
+                  </span>K+
+                </h3>
+                <p style={{ fontSize: '42px', color: '#ffffff', margin: 0, opacity: 0.9, fontWeight: '500' }}>Happy Customers</p>
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-6 col-sm-6 mb-4 mb-lg-0">
+              <div className="stat-item text-center wow fadeInUp" data-wow-delay=".7s">
+                <h3 style={{ fontSize: '200px', fontWeight: '700', color: '#ffffff', marginBottom: '20px', lineHeight: '1' }}>
+                  <span className="count">
+                    <Counter end={99} />
+                  </span>%
+                </h3>
+                <p style={{ fontSize: '42px', color: '#ffffff', margin: 0, opacity: 0.9, fontWeight: '500' }}>Uptime Guarantee</p>
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-6 col-sm-6 mb-4 mb-lg-0">
+              <div className="stat-item text-center wow fadeInUp" data-wow-delay=".9s">
+                <h3 style={{ fontSize: '200px', fontWeight: '700', color: '#ffffff', marginBottom: '20px', lineHeight: '1' }}>24/7</h3>
+                <p style={{ fontSize: '42px', color: '#ffffff', margin: 0, opacity: 0.9, fontWeight: '500' }}>Customer Support</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Service Section Start */}
       <Services />
 
-      {/* Working Process Section Start */}
-      <WorkingProcess />
 
       {/* Testimonial Section Start */}
       <section
         className="testimonial-section-4 fix section-padding"
         id="testimonial"
+        style={{ backgroundColor: '#ffffff', position: 'relative', overflow: 'hidden' }}
       >
         <div className="container" style={{ maxWidth: '1200px', paddingLeft: '3rem', paddingRight: '3rem' }}>
           <div className="section-title text-center">
@@ -257,14 +460,209 @@ const page = () => {
               <img src="assets/img/bale.png" alt="img" style={{ width: '14px', height: '14px' }} />
               Testimonials
             </span>
-            <h2 className="text-white wow fadeInUp" data-wow-delay=".3s">
+            <h2 className="wow fadeInUp" data-wow-delay=".3s" style={{ color: '#101828' }}>
               What Our Buyers &amp; Sellers Say About Us
             </h2>
           </div>
         </div>
 
-        <TestimonialSlider4 />
-        <TestimonialSlider5 />
+        <div className="testimonial-scroll-wrapper" style={{ 
+          overflow: 'hidden', 
+          width: '100%', 
+          position: 'relative',
+          padding: '60px 0'
+        }}>
+          <div className="testimonial-scroll-container" style={{
+            display: 'flex',
+            gap: '30px',
+            animation: 'scrollTestimonials 30s linear infinite',
+            width: 'fit-content'
+          }}>
+            {[
+              { quote: "GroupBuy Tools helped me save hundreds on SEO tools. The platform is reliable and the sellers are verified. Highly recommended!", name: "Sarah Johnson", company: "Digital Marketing Pro" },
+              { quote: "As a seller, I've found great buyers here. The transaction process is smooth and secure. Best marketplace for digital tools!", name: "Michael Chen", company: "Tool Seller" },
+              { quote: "I've been buying tools here for 6 months. Great prices, fast delivery, and excellent customer support. 5 stars!", name: "Emily Rodriguez", company: "SEO Agency" },
+              { quote: "The best place to buy premium tools at affordable prices. I've saved so much money compared to direct subscriptions!", name: "David Kim", company: "Freelancer" },
+              { quote: "Selling tools here has been amazing. The platform is user-friendly and I get paid quickly. Love it!", name: "Lisa Anderson", company: "Digital Tools Reseller" },
+              { quote: "GroupBuy Tools is a game changer! I can now access all premium SEO tools without breaking the bank.", name: "James Wilson", company: "Marketing Consultant" },
+            ].map((testimonial, index) => (
+              <figure key={index} className="snip1533" style={{
+                boxShadow: '0 0 5px rgba(0, 0, 0, 0.15)',
+                color: '#9e9e9e',
+                display: 'inline-block',
+                fontSize: '16px',
+                margin: '35px 10px 10px',
+                maxWidth: '310px',
+                minWidth: '250px',
+                position: 'relative',
+                textAlign: 'center',
+                width: '100%',
+                backgroundColor: '#ffffff',
+                borderRadius: '5px',
+                borderTop: '5px solid #F58967',
+                flexShrink: 0
+              }}>
+                <figcaption style={{ padding: '13% 10% 12%', position: 'relative' }}>
+                  <div style={{
+                    transform: 'translateX(-50%)',
+                    backgroundColor: '#fff',
+                    borderRadius: '50%',
+                    boxShadow: '0 0 10px rgba(0, 0, 0, 0.25)',
+                    color: '#F58967',
+                    content: '"\\f10e"',
+                    fontFamily: 'FontAwesome',
+                    fontSize: '32px',
+                    fontStyle: 'normal',
+                    left: '50%',
+                    lineHeight: '60px',
+                    position: 'absolute',
+                    top: '-30px',
+                    width: '60px',
+                    height: '60px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <i className="fas fa-quote-right" style={{ fontSize: '32px', color: '#F58967' }} />
+                  </div>
+                  <blockquote style={{
+                    fontStyle: 'italic',
+                    fontWeight: '300',
+                    margin: '0 0 20px',
+                    fontSize: '15px',
+                    lineHeight: '1.6',
+                    color: '#696969'
+                  }}>
+                    {testimonial.quote}
+                  </blockquote>
+                  <h3 style={{
+                    color: '#3c3c3c',
+                    fontSize: '20px',
+                    fontWeight: '300',
+                    lineHeight: '24px',
+                    margin: '10px 0 5px'
+                  }}>
+                    {testimonial.name}
+                  </h3>
+                  <h4 style={{
+                    fontWeight: '400',
+                    margin: '0',
+                    opacity: '0.5',
+                    fontSize: '14px',
+                    color: '#9e9e9e'
+                  }}>
+                    {testimonial.company}
+                  </h4>
+                </figcaption>
+              </figure>
+            ))}
+            {/* Duplicate for seamless loop */}
+            {[
+              { quote: "GroupBuy Tools helped me save hundreds on SEO tools. The platform is reliable and the sellers are verified. Highly recommended!", name: "Sarah Johnson", company: "Digital Marketing Pro" },
+              { quote: "As a seller, I've found great buyers here. The transaction process is smooth and secure. Best marketplace for digital tools!", name: "Michael Chen", company: "Tool Seller" },
+              { quote: "I've been buying tools here for 6 months. Great prices, fast delivery, and excellent customer support. 5 stars!", name: "Emily Rodriguez", company: "SEO Agency" },
+            ].map((testimonial, index) => (
+              <figure key={`dup-${index}`} className="snip1533" style={{
+                boxShadow: '0 0 5px rgba(0, 0, 0, 0.15)',
+                color: '#9e9e9e',
+                display: 'inline-block',
+                fontSize: '16px',
+                margin: '35px 10px 10px',
+                maxWidth: '310px',
+                minWidth: '250px',
+                position: 'relative',
+                textAlign: 'center',
+                width: '100%',
+                backgroundColor: '#ffffff',
+                borderRadius: '5px',
+                borderTop: '5px solid #F58967',
+                flexShrink: 0
+              }}>
+                <figcaption style={{ padding: '13% 10% 12%', position: 'relative' }}>
+                  <div style={{
+                    transform: 'translateX(-50%)',
+                    backgroundColor: '#fff',
+                    borderRadius: '50%',
+                    boxShadow: '0 0 10px rgba(0, 0, 0, 0.25)',
+                    color: '#F58967',
+                    fontFamily: 'FontAwesome',
+                    fontSize: '32px',
+                    fontStyle: 'normal',
+                    left: '50%',
+                    lineHeight: '60px',
+                    position: 'absolute',
+                    top: '-30px',
+                    width: '60px',
+                    height: '60px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <i className="fas fa-quote-right" style={{ fontSize: '32px', color: '#F58967' }} />
+                  </div>
+                  <blockquote style={{
+                    fontStyle: 'italic',
+                    fontWeight: '300',
+                    margin: '0 0 20px',
+                    fontSize: '15px',
+                    lineHeight: '1.6',
+                    color: '#696969'
+                  }}>
+                    {testimonial.quote}
+                  </blockquote>
+                  <h3 style={{
+                    color: '#3c3c3c',
+                    fontSize: '20px',
+                    fontWeight: '300',
+                    lineHeight: '24px',
+                    margin: '10px 0 5px'
+                  }}>
+                    {testimonial.name}
+                  </h3>
+                  <h4 style={{
+                    fontWeight: '400',
+                    margin: '0',
+                    opacity: '0.5',
+                    fontSize: '14px',
+                    color: '#9e9e9e'
+                  }}>
+                    {testimonial.company}
+                  </h4>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes scrollTestimonials {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(-50%);
+            }
+          }
+          .testimonial-section-4 {
+            background-color: #ffffff;
+          }
+          .testimonial-section-4 .snip1533 {
+            transition: all 0.3s ease;
+          }
+          .testimonial-section-4 .snip1533:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+          }
+          @media (max-width: 767px) {
+            .testimonial-scroll-container {
+              gap: 20px !important;
+            }
+            .testimonial-section-4 .snip1533 {
+              min-width: 200px !important;
+              maxWidth: 280px !important;
+            }
+          }
+        `}} />
       </section>
 
       {/* Faq Section Start */}
@@ -387,23 +785,13 @@ const page = () => {
         </div>
         <div className="container" style={{ maxWidth: '1200px', paddingLeft: '3rem', paddingRight: '3rem' }}>
           <div className="row g-4 justify-content-center align-items-center">
-            <div className="col-lg-1" />
-            <div className="col-lg-4 wow fadeInUp" data-wow-delay=".3s">
-              <div className="contact-image">
-                <img src="assets/img/contact.jpg" alt="img" />
-                <div className="circle-musk-shape float-bob-x">
-                  <img src="assets/img/hero/circle-musk.png" alt="shape-img" />
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-1" />
-            <div className="col-lg-6">
+            <div className="col-lg-8 text-center">
               <div className="section-title">
-                <span className="sub-content wow fadeInUp" style={{ fontSize: '0.75rem', padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: '6px', width: 'fit-content' }}>
+                <span className="sub-content wow fadeInUp" style={{ fontSize: '0.75rem', padding: '4px 10px', display: 'inline-flex', alignItems: 'center', gap: '6px', width: 'fit-content', margin: '0 auto' }}>
                   <img src="assets/img/bale.png" alt="img" style={{ width: '14px', height: '14px' }} />
                   Ready to Start?
                 </span>
-                <h2 className="wow fadeInUp" data-wow-delay=".3s">
+                <h2 className="wow fadeInUp" data-wow-delay=".3s" style={{ marginTop: '20px' }}>
                   Ready to Buy or Sell Digital Tools <br />
                   at Cheap Prices ?
                 </h2>

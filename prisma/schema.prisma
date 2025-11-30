@@ -3,6 +3,8 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = []
+  engineType = "library"
 }
 
 datasource db {
@@ -71,6 +73,7 @@ model Store {
   products    Product[]
   plans       Plan[]
   orders      Order[]
+  offers      Offer[]
 
   @@map("stores")
 }

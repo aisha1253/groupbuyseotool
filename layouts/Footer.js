@@ -25,23 +25,8 @@ export default Footer;
 
 const Footer1 = () => {
   return (
-    <footer className="footer-section footer-bg">
+    <footer className="footer-section footer-bg" style={{ backgroundColor: '#0F1F3E' }}>
       <div className="container">
-        <div className="discussed-items">
-          <div className="footer-logo wow fadeInUp" data-wow-delay=".3s">
-            <Link href="/">
-              <img src="assets/img/logo/white-logo.svg" alt="logo-img" />
-            </Link>
-          </div>
-          <div className="discussed-content wow fadeInUp" data-wow-delay=".5s">
-            <h2>
-              Let’s Discussed About <span>Your Projects</span>
-            </h2>
-            <Link href="contact" className="theme-btn hover-white">
-              Get Started <i className="far fa-arrow-right" />
-            </Link>
-          </div>
-        </div>
         <div className="footer-widgets-wrapper">
           <div className="row">
             <div
@@ -57,20 +42,6 @@ const Footer1 = () => {
                     Sed perspiciatis unde omnis natus doloremque laudantium
                     totae
                   </p>
-                  <div className="social-icon d-flex align-items-center">
-                    <a href="#">
-                      <i className="fab fa-facebook-f" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-twitter" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-vimeo-v" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-pinterest-p" />
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -226,7 +197,7 @@ const Footer1 = () => {
 
 const Footer2 = () => {
   return (
-    <footer className="footer-section footer-bg">
+    <footer className="footer-section footer-bg" style={{ backgroundColor: '#0F1F3E' }}>
       <div className="container">
         <div className="footer-widgets-wrapper">
           <div className="row">
@@ -245,20 +216,6 @@ const Footer2 = () => {
                     Sed perspiciatis unde omnis natus doloremque laudantium
                     totae
                   </p>
-                  <div className="social-icon d-flex align-items-center">
-                    <a href="#">
-                      <i className="fab fa-facebook-f" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-twitter" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-vimeo-v" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-pinterest-p" />
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -406,7 +363,7 @@ const Footer2 = () => {
 
 const Footer3 = () => {
   return (
-    <footer className="footer-section footer-bg">
+    <footer className="footer-section footer-bg" style={{ backgroundColor: '#0F1F3E' }}>
       <div className="container">
         <div className="footer-widgets-wrapper">
           <div className="row">
@@ -425,20 +382,6 @@ const Footer3 = () => {
                     Sed perspiciatis unde omnis natus doloremque laudantium
                     totae
                   </p>
-                  <div className="social-icon d-flex align-items-center">
-                    <a href="#">
-                      <i className="fab fa-facebook-f" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-twitter" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-vimeo-v" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-pinterest-p" />
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -560,13 +503,7 @@ const Footer3 = () => {
 
 const Footer4 = () => {
   return (
-    <footer className="footer-section footer-bg fix">
-      <div className="color-shape">
-        <img src="assets/img/footer-color-shape.png" alt="shape-img" />
-      </div>
-      <div className="color-shape-2">
-        <img src="assets/img/footer-color-shape-2.png" alt="shape-img" />
-      </div>
+    <footer className="footer-section footer-bg fix" style={{ backgroundColor: '#0F1F3E' }}>
       <div className="container">
         <div className="footer-widgets-wrapper">
           <div className="row">
@@ -584,20 +521,6 @@ const Footer4 = () => {
                   <p>
                     Buy &amp; Sell Digital Tools at Cheap Prices - Best Marketplace for Buyers &amp; Sellers
                   </p>
-                  <div className="social-icon d-flex align-items-center">
-                    <a href="#">
-                      <i className="fab fa-facebook-f" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-twitter" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-vimeo-v" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-pinterest-p" />
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
@@ -635,9 +558,6 @@ const Footer4 = () => {
                 </div>
                 <div className="contact-info-area">
                   <div className="contact-items color-style-2">
-                    <div className="icon">
-                      <i className="fas fa-map-marker-alt" />
-                    </div>
                     <div className="content">
                       <p>
                         55 Main Street, 2nd block <br />
@@ -646,9 +566,6 @@ const Footer4 = () => {
                     </div>
                   </div>
                   <div className="contact-items color-style-2">
-                    <div className="icon">
-                      <i className="fas fa-envelope" />
-                    </div>
                     <div className="content">
                       <a href="mailto:info@example.com" className="link">
                         info@example.com
@@ -656,9 +573,6 @@ const Footer4 = () => {
                     </div>
                   </div>
                   <div className="contact-items color-style-2">
-                    <div className="icon">
-                      <i className="fas fa-phone-alt" />
-                    </div>
                     <div className="content">
                       <h4>
                         <a href="tel:00012345688">+000 (123) 456 88</a>
@@ -681,7 +595,6 @@ const Footer4 = () => {
                   <div className="footer-input">
                     <input type="email" id="email" placeholder="Your Email" />
                     <button className="newsletter-btn" type="submit">
-                      <i className="far fa-arrow-right" />
                     </button>
                   </div>
                 </div>
@@ -705,7 +618,6 @@ const Footer4 = () => {
               </li>
             </ul>
             <a href="#" id="scrollUp" className="scroll-icon">
-              <i className="far fa-angle-double-up" />
             </a>
             <p>
               © <Link href="/">2024</Link> All Rights Reserved
@@ -719,29 +631,8 @@ const Footer4 = () => {
 
 const Footer6 = () => {
   return (
-    <footer className="footer-section footer-bg">
-      <div className="robot-shape float-bob-y">
-        <img src="assets/img/home-6/robot-3.png" alt="shape-img" />
-      </div>
-      <div className="robot-shape-2 float-bob-y">
-        <img src="assets/img/home-6/robot-4.png" alt="shape-img" />
-      </div>
+    <footer className="footer-section footer-bg" style={{ backgroundColor: '#0F1F3E' }}>
       <div className="container">
-        <div className="discussed-items">
-          <div className="footer-logo wow fadeInUp" data-wow-delay=".3s">
-            <Link href="/">
-              <img src="assets/img/logo/white-logo.svg" alt="logo-img" />
-            </Link>
-          </div>
-          <div className="discussed-content wow fadeInUp" data-wow-delay=".5s">
-            <h2>
-              Let’s Discussed About <span>Your Projects</span>
-            </h2>
-            <Link href="contact" className="theme-btn hover-white">
-              Get Started <i className="far fa-arrow-right" />
-            </Link>
-          </div>
-        </div>
         <div className="footer-widgets-wrapper">
           <div className="row">
             <div
@@ -757,20 +648,6 @@ const Footer6 = () => {
                     Sed perspiciatis unde omnis natus doloremque laudantium
                     totae
                   </p>
-                  <div className="social-icon d-flex align-items-center">
-                    <a href="#">
-                      <i className="fab fa-facebook-f" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-twitter" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-vimeo-v" />
-                    </a>
-                    <a href="#">
-                      <i className="fab fa-pinterest-p" />
-                    </a>
-                  </div>
                 </div>
               </div>
             </div>
