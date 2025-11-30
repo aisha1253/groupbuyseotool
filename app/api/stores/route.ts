@@ -138,6 +138,9 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    // Store storeId in a constant to satisfy TypeScript
+    const storeId = user.store.id;
+
     // Update store
     const updateData: any = {};
     if (name) {
@@ -151,7 +154,7 @@ export async function PUT(request: NextRequest) {
     if (icon !== undefined) updateData.icon = icon;
 
     const store = await prisma.store.update({
-      where: { id: user.store.id },
+      where: { id: storeId },
       data: updateData,
     });
 
@@ -195,9 +198,12 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
+    // Store storeId in a constant to satisfy TypeScript
+    const storeId = user.store.id;
+
     // Delete store (cascade will delete products, plans, etc.)
     await prisma.store.delete({
-      where: { id: user.store.id },
+      where: { id: storeId },
     });
 
     return NextResponse.json({ success: true }, { status: 200 });

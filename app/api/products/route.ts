@@ -79,6 +79,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Store storeId in a constant to satisfy TypeScript
+    const storeId = user.store.id;
+
     // Verify category exists
     const category = await prisma.category.findUnique({
       where: { id: categoryId },
@@ -103,7 +106,7 @@ export async function POST(request: NextRequest) {
     while (
       await prisma.product.findFirst({
         where: {
-          storeId: user.store.id,
+          storeId: storeId,
           slug: slug,
         },
       })
@@ -115,7 +118,7 @@ export async function POST(request: NextRequest) {
     // Create product
     const product = await prisma.product.create({
       data: {
-        storeId: user.store.id,
+        storeId: storeId,
         categoryId,
         name,
         slug,

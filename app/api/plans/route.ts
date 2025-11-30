@@ -83,11 +83,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Store storeId in a constant to satisfy TypeScript
+    const storeId = user.store.id;
+
     // Verify products exist and belong to the store
     const products = await prisma.product.findMany({
       where: {
         id: { in: productIds },
-        storeId: user.store.id,
+        storeId: storeId,
       },
     });
 
@@ -110,7 +113,7 @@ export async function POST(request: NextRequest) {
     while (
       await prisma.plan.findFirst({
         where: {
-          storeId: user.store.id,
+          storeId: storeId,
           slug: slug,
         },
       })
@@ -123,7 +126,7 @@ export async function POST(request: NextRequest) {
     const plan = await prisma.$transaction(async (tx) => {
       const newPlan = await tx.plan.create({
         data: {
-          storeId: user.store.id,
+          storeId: storeId,
           name,
           slug,
           description,
