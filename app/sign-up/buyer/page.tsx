@@ -8,7 +8,7 @@ export default function BuyerSignUpPage() {
   const router = useRouter();
 
   return (
-    <NextLayout header={2}>
+    <NextLayout header={2} footer={4} single>
       <section className="buyer-signup-section" style={{
         minHeight: '100vh',
         display: 'flex',
