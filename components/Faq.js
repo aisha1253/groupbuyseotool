@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Faq = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -32,99 +32,273 @@ const Faq = () => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  useEffect(() => {
+    // Update aria attributes and max-height when openIndex changes
+    const items = document.querySelectorAll('.accordions__item');
+    items.forEach((item, index) => {
+      const control = item.querySelector('.accordions__control');
+      const content = item.querySelector('.accordions__content');
+      
+      if (openIndex === index) {
+        item.classList.add('open');
+        if (control) control.setAttribute('aria-expanded', 'true');
+        if (content) {
+          content.setAttribute('aria-hidden', 'false');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      } else {
+        item.classList.remove('open');
+        if (control) control.setAttribute('aria-expanded', 'false');
+        if (content) {
+          content.setAttribute('aria-hidden', 'true');
+          content.style.maxHeight = '0';
+        }
+      }
+    });
+  }, [openIndex]);
+
   return (
-    <section className="faq-section section-padding">
-      <div className="container" style={{ maxWidth: '1200px', paddingLeft: '3rem', paddingRight: '3rem' }}>
-        <div className="section-title text-center">
-          <span className="sub-content wow fadeInUp" style={{ fontSize: '0.75rem', padding: '4px 10px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px', width: 'fit-content' }}>
-            <img src="assets/img/bale.png" alt="img" style={{ width: '14px', height: '14px' }} />
-            Some Question
-          </span>
-          <h2 className="wow fadeInUp" data-wow-delay=".3s">
+    <section className="process" style={{ padding: '70px 0', fontFamily: 'Rubik, system-ui, -apple-system, sans-serif' }}>
+      <div className="process__container" style={{ maxWidth: '1240px', margin: '0 auto', padding: '0 15px' }}>
+        <div className="process__intro intro" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: '2.5rem',
+          marginBottom: '80px'
+        }}>
+          <h2 className="process__title title" style={{
+            fontSize: '40px',
+            fontWeight: '500',
+            lineHeight: '127.5%',
+            position: 'relative',
+            textTransform: 'capitalize',
+            display: 'inline-flex',
+            fontFamily: 'Rubik, system-ui, -apple-system, sans-serif',
+            padding: '0 7px',
+            margin: 0
+          }}>
             Frequently Asked Questions
+            <span style={{
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: -1,
+              backgroundColor: '#F58967',
+              borderRadius: '0.4375rem'
+            }}></span>
           </h2>
-        </div>
-        <div className="row justify-content-center">
-          <div className="col-lg-10">
-            <div className="faq-content">
-              <div className="faq-accordion">
-                <div className="accordion" id="accordion">
-                  {faqs.map((faq, index) => (
-                    <div
-                      key={index}
-                      className="accordion-item wow fadeInUp"
-                      data-wow-delay={`${0.3 + index * 0.2}s`}
-                    >
-                      <h4 className="accordion-header">
-                        <button
-                          className={`accordion-button ${openIndex === index ? '' : 'collapsed'}`}
-                          type="button"
-                          onClick={() => toggleAccordion(index)}
-                          aria-expanded={openIndex === index}
-                          aria-controls={`faq${index + 1}`}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          {faq.question}
-                        </button>
-                      </h4>
-                      <div
-                        id={`faq${index + 1}`}
-                        className={`accordion-collapse ${openIndex === index ? 'show' : 'collapse'}`}
-                      >
-                        <div className="accordion-body">
-                          {faq.answer}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+          <div className="process__text text" style={{
+            fontSize: '18px',
+            lineHeight: '127%',
+            maxWidth: '18.25rem',
+            color: '#667085'
+          }}>
+            Step-by-Step Guide to Getting Started
           </div>
         </div>
+
+        <div className="process__accordions">
+          <ul className="accordions__list" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.8rem',
+            listStyle: 'none',
+            padding: 0,
+            margin: 0
+          }}>
+            {faqs.map((faq, index) => (
+              <li 
+                key={index}
+                className={`accordions__item ${openIndex === index ? 'open' : ''}`}
+                style={{
+                  backgroundColor: openIndex === index ? '#F58967' : '#f3f3f3',
+                  borderRadius: '2.8rem',
+                  overflow: 'hidden',
+                  transition: '0.5s cubic-bezier(0.65, 0.2, 0.65, 1)',
+                  boxShadow: '0px 5px 0px 0px #101828',
+                  border: '1px solid #101828'
+                }}
+              >
+                <button 
+                  className="accordions__control"
+                  onClick={() => toggleAccordion(index)}
+                  aria-expanded={openIndex === index}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '40px 60px',
+                    width: '100%',
+                    position: 'relative',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    textAlign: 'left'
+                  }}
+                >
+                  <span className="accordions__number" style={{
+                    fontSize: '60px',
+                    fontFamily: 'Rubik, system-ui, -apple-system, sans-serif',
+                    paddingRight: '1.5625rem',
+                    fontWeight: '500',
+                    color: '#101828',
+                    flexShrink: 0
+                  }}>
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="accordions__title" style={{
+                    fontFamily: 'Rubik, system-ui, -apple-system, sans-serif',
+                    fontSize: '30px',
+                    fontWeight: '500',
+                    textTransform: 'capitalize',
+                    flex: '1 1 auto',
+                    display: 'flex',
+                    lineHeight: '120%',
+                    paddingRight: '1.25rem',
+                    justifyContent: 'flex-start',
+                    textAlign: 'left',
+                    color: '#101828'
+                  }}>
+                    {faq.question}
+                  </span>
+                  <span 
+                    className="accordions__icon"
+                    data-open={openIndex === index}
+                    style={{
+                      flex: '0 0 58px',
+                      display: 'flex',
+                      width: '58px',
+                      height: '58px',
+                      backgroundColor: openIndex === index ? '#F58967' : '#f3f3f3',
+                      border: '1px solid #101828',
+                      borderRadius: '50%',
+                      position: 'relative',
+                      transition: '0.5s cubic-bezier(0.65, 0.2, 0.65, 1)',
+                      transform: openIndex === index ? 'rotate(225deg)' : 'rotate(0deg)'
+                    }}
+                  ></span>
+                </button>
+                <div 
+                  className="accordions__content text"
+                  aria-hidden={openIndex !== index}
+                  style={{
+                    padding: openIndex === index ? '20px 60px 40px 60px' : '0 60px',
+                    maxHeight: openIndex === index ? '1000px' : '0',
+                    overflow: 'hidden',
+                    willChange: 'max-height',
+                    transition: '0.5s cubic-bezier(0.65, 0.2, 0.65, 1)',
+                    boxSizing: 'content-box',
+                    position: 'relative',
+                    zIndex: 5,
+                    fontSize: '18px',
+                    lineHeight: '127%',
+                    color: '#101828'
+                  }}
+                >
+                  <p style={{ margin: 0, color: '#101828' }}>{faq.answer}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
+
       <style dangerouslySetInnerHTML={{__html: `
-        .accordion-button {
-          cursor: pointer;
-          transition: all 0.3s ease;
+        .accordions__icon::before {
+          content: "";
+          width: 1.5625rem;
+          height: 0.3125rem;
+          background-color: #101828;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
-        .accordion-button:not(.collapsed) {
-          background-color: #F58967;
-          color: #ffffff;
+        .accordions__icon::after {
+          content: "";
+          width: 1.5625rem;
+          height: 0.3125rem;
+          background-color: #101828;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) rotate(90deg);
         }
-        .accordion-button:not(.collapsed)::after {
-          filter: brightness(0) invert(1);
+        @media (max-width: 991.98px) {
+          .process__intro {
+            margin-bottom: 32px !important;
+          }
         }
-        .accordion-body {
-          padding: 1rem 1.25rem;
-          background-color: #ffffff;
-          color: #696969;
-          line-height: 1.6;
+        @media (max-width: 767.98px) {
+          .process {
+            padding: 30px 0 !important;
+          }
+          .process__intro {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.8rem !important;
+          }
+          .process__title {
+            font-size: 36px !important;
+          }
+          .accordions__control {
+            padding: 30px !important;
+          }
+          .accordions__number {
+            font-size: 40px !important;
+            padding-right: 0.625rem !important;
+          }
+          .accordions__title {
+            font-size: 20px !important;
+          }
+          .accordions__content {
+            padding: 0 30px !important;
+          }
+          .open .accordions__content {
+            padding: 20px 30px !important;
+          }
         }
-        .accordion-item {
-          border: 1px solid #E6E6E6;
-          border-radius: 8px;
-          margin-bottom: 15px;
-          overflow: hidden;
-        }
-        .accordion-collapse {
-          transition: all 0.3s ease;
-          overflow: hidden;
-        }
-        .accordion-collapse.show {
-          display: block !important;
-          max-height: 1000px;
-          opacity: 1;
-        }
-        .accordion-collapse.collapse:not(.show) {
-          display: none !important;
-        }
-        .faq-section .accordion-body {
-          display: block !important;
-          visibility: visible !important;
+        @media (max-width: 479.98px) {
+          .process__title {
+            font-size: 28px !important;
+          }
+          .process__text {
+            font-size: 16px !important;
+          }
+          .accordions__list {
+            gap: 1.25rem !important;
+          }
+          .accordions__item {
+            border-radius: 1.5rem !important;
+          }
+          .accordions__control {
+            padding: 20px !important;
+          }
+          .accordions__number {
+            font-size: 20px !important;
+          }
+          .accordions__icon {
+            flex: 0 0 32px !important;
+            width: 32px !important;
+            height: 32px !important;
+          }
+          .accordions__icon::before,
+          .accordions__icon::after {
+            width: 15px !important;
+            height: 2px !important;
+          }
+          .accordions__content {
+            padding: 0 20px !important;
+          }
+          .open .accordions__content {
+            padding: 0px 20px 20px 20px !important;
+          }
         }
       `}} />
     </section>
   );
 };
+
 export default Faq;
